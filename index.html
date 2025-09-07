@@ -1,0 +1,127 @@
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
+
+export default function Home(){
+  const services = [
+    { title: 'On Page SEO', icon: '🔎' },
+    { title: 'Content Development', icon: '📈' },
+    { title: 'Content Strategy', icon: '💡' },
+    { title: 'Creative Content', icon: '📣' }
+  ]
+
+  return (
+    <section className="max-w-7xl mx-auto pt-28 pb-20 px-4 sm:px-6 lg:px-8">
+      {/* HERO */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+        <motion.div
+          initial={{ opacity: 0, x: -16 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.6 }}
+          className="space-y-6"
+        >
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight">
+            Growth that lasts — <span className="text-accent">Be Eternal</span>
+          </h1>
+
+          <p className="text-gray-300 max-w-xl">
+            We build modern, measurable SEO & content experiences that scale. This mockup uses
+            glassmorphism, 3D tiles, subtle hover tints and smooth motion — replace copy and
+            assets easily.
+          </p>
+
+          <div className="flex flex-wrap gap-4">
+            <Link to="/contact" className="glass btn-accent px-5 py-3 rounded-xl border border-transparent font-semibold">
+              Get Started
+            </Link>
+            <Link to="/seo" className="glass px-5 py-3 rounded-xl border border-gray-700">
+              Explore Services
+            </Link>
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, x: 16 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.6 }}
+          className="relative"
+        >
+          {/* Large glass card with 3D tiles inside */}
+          <div className="glass rounded-2xl p-6 tile-3d">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+              {/* visual / hero mock */}
+              <div className="rounded-xl h-60 md:h-44 w-full bg-gradient-to-br from-slate-800 to-slate-700 flex items-center justify-center">
+                <div className="text-gray-200 text-center px-4">
+                  <div className="text-sm uppercase tracking-wide text-gray-400">Hero Visual</div>
+                  <div className="mt-3 text-lg">Replace with illustration or animation</div>
+                </div>
+              </div>
+
+              {/* service tiles */}
+              <div className="grid grid-cols-2 gap-4">
+                {services.map((s, i) => (
+                  <motion.button
+                    key={i}
+                    whileHover={{ scale: 1.03 }}
+                    className="glass rounded-xl p-4 flex flex-col items-center justify-center text-center border border-transparent hover:border-accent transition-all"
+                  >
+                    <div className="text-3xl mb-2">{s.icon}</div>
+                    <div className="text-sm font-medium">{s.title}</div>
+                  </motion.button>
+                ))}
+              </div>
+            </div>
+
+            {/* subtle note / caption */}
+            <div className="mt-4 text-xs text-gray-400">Hover tiles for subtle 3D lift. Accent tint on hover uses <span className="font-medium">#38b6ff</span>.</div>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* FEATURE ROW */}
+      <motion.section
+        initial={{ opacity: 0, y: 12 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.15 }}
+        transition={{ duration: 0.6 }}
+        className="mt-12"
+      >
+        <h2 className="text-2xl font-semibold">What we do</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+          {[
+            { title: 'Technical SEO', desc: 'Crawl faster, index better.' },
+            { title: 'Content Marketing', desc: 'Stories that rank & convert.' },
+            { title: 'Paid Ads', desc: 'High-ROI campaigns.' },
+            { title: 'Branding & Creatives', desc: 'Visual identity & assets.' }
+          ].map((f, idx) => (
+            <motion.div key={idx} whileHover={{ y: -8 }} className="glass p-6 rounded-xl tile-3d">
+              <div className="text-sm uppercase text-gray-400">{f.title}</div>
+              <div className="mt-3 text-gray-300 text-sm">{f.desc}</div>
+            </motion.div>
+          ))}
+        </div>
+      </motion.section>
+
+      {/* CTA BANNER */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="mt-12 glass rounded-xl p-6 flex flex-col md:flex-row items-center justify-between gap-4"
+      >
+        <div>
+          <h3 className="text-xl font-semibold">Ready to grow?</h3>
+          <p className="text-sm text-gray-300 mt-1">Schedule a quick call to see what Be Eternal can do for your brand.</p>
+        </div>
+        <div className="flex gap-3">
+          <Link to="/contact" className="btn-accent glass px-4 py-2 rounded-md font-semibold">Schedule a Call</Link>
+          <Link to="/seo" className="glass px-4 py-2 rounded-md">View SEO Services</Link>
+        </div>
+      </motion.div>
+
+    </section>
+  )
+}
