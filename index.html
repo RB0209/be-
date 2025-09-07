@@ -1,127 +1,421 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Be Eternal — Growth That Lasts</title>
 
-export default function Home(){
-  const services = [
-    { title: 'On Page SEO', icon: '🔎' },
-    { title: 'Content Development', icon: '📈' },
-    { title: 'Content Strategy', icon: '💡' },
-    { title: 'Creative Content', icon: '📣' }
-  ]
+  <!-- -----------------------------
+       NOTES / DEPLOY
+       - Save this file as index.html at repo root.
+       - Git: git init → commit → push to GitHub.
+       - Vercel: import your GitHub repo (automatically serves index.html) or use `vercel` CLI.
+       - Replace assets & copy as needed.
+     ----------------------------- -->
 
-  return (
-    <section className="max-w-7xl mx-auto pt-28 pb-20 px-4 sm:px-6 lg:px-8">
-      {/* HERO */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-        <motion.div
-          initial={{ opacity: 0, x: -16 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6 }}
-          className="space-y-6"
-        >
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight">
-            Growth that lasts — <span className="text-accent">Be Eternal</span>
-          </h1>
+  <!-- Google fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
 
-          <p className="text-gray-300 max-w-xl">
-            We build modern, measurable SEO & content experiences that scale. This mockup uses
-            glassmorphism, 3D tiles, subtle hover tints and smooth motion — replace copy and
-            assets easily.
-          </p>
+  <meta name="description" content="Be Eternal — modern SEO & content solutions. Glassmorphism mockup, sellable homepage." />
 
-          <div className="flex flex-wrap gap-4">
-            <Link to="/contact" className="glass btn-accent px-5 py-3 rounded-xl border border-transparent font-semibold">
-              Get Started
-            </Link>
-            <Link to="/seo" className="glass px-5 py-3 rounded-xl border border-gray-700">
-              Explore Services
-            </Link>
-          </div>
-        </motion.div>
+  <style>
+    /* -------- variables -------- */
+    :root{
+      --bg:#0b1020;
+      --card: rgba(255,255,255,0.06);
+      --card-border: rgba(255,255,255,0.08);
+      --muted:#bfc7d6;
+      --accent:#7c5cff; /* CHOSEN ACCENT (not #38b6ff) */
+      --accent-weak: rgba(124,92,255,0.12);
+      --glass-blur: 12px;
+      --max-width:1200px;
+    }
 
-        <motion.div
-          initial={{ opacity: 0, x: 16 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6 }}
-          className="relative"
-        >
-          {/* Large glass card with 3D tiles inside */}
-          <div className="glass rounded-2xl p-6 tile-3d">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
-              {/* visual / hero mock */}
-              <div className="rounded-xl h-60 md:h-44 w-full bg-gradient-to-br from-slate-800 to-slate-700 flex items-center justify-center">
-                <div className="text-gray-200 text-center px-4">
-                  <div className="text-sm uppercase tracking-wide text-gray-400">Hero Visual</div>
-                  <div className="mt-3 text-lg">Replace with illustration or animation</div>
-                </div>
-              </div>
+    /* -------- base / reset -------- */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg,#071025 0%, #0b1020 45%);
+      color: #e9eef8;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+      padding-bottom:64px;
+    }
+    a{color:inherit; text-decoration:none}
+    img{max-width:100%; display:block}
 
-              {/* service tiles */}
-              <div className="grid grid-cols-2 gap-4">
-                {services.map((s, i) => (
-                  <motion.button
-                    key={i}
-                    whileHover={{ scale: 1.03 }}
-                    className="glass rounded-xl p-4 flex flex-col items-center justify-center text-center border border-transparent hover:border-accent transition-all"
-                  >
-                    <div className="text-3xl mb-2">{s.icon}</div>
-                    <div className="text-sm font-medium">{s.title}</div>
-                  </motion.button>
-                ))}
-              </div>
-            </div>
+    /* -------- layout utilities -------- */
+    .container{max-width:var(--max-width); margin:0 auto; padding:0 20px}
+    .row{display:flex; gap:24px; align-items:center}
+    .col{flex:1}
 
-            {/* subtle note / caption */}
-            <div className="mt-4 text-xs text-gray-400">Hover tiles for subtle 3D lift. Accent tint on hover uses <span className="font-medium">#38b6ff</span>.</div>
-          </div>
-        </motion.div>
+    /* -------- navbar -------- */
+    header{position:sticky; top:14px; z-index:40}
+    .nav-wrap{backdrop-filter: blur(8px) saturate(110%); -webkit-backdrop-filter: blur(8px); background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02)); border:1px solid var(--card-border); border-radius:14px; padding:10px 16px; margin:10px 20px; display:flex; align-items:center; justify-content:space-between;}
+    .brand{display:flex; gap:12px; align-items:center}
+    .logo{
+      width:44px; height:44px; border-radius:8px; display:grid; place-items:center;
+      background: linear-gradient(135deg, var(--accent), #4b2bf7);
+      box-shadow: 0 6px 20px rgba(124,92,255,0.16);
+      font-weight:700;
+      color:#fff;
+      font-family:Poppins, Inter, sans-serif;
+    }
+    nav ul{display:flex; gap:18px; list-style:none; margin:0; padding:0; align-items:center}
+    nav a{font-weight:600; color: #e6eefc; opacity:0.95; font-size:15px}
+    .nav-cta{padding:8px 12px; border-radius:10px; background: linear-gradient(90deg,var(--accent), #6b50ff); box-shadow: 0 8px 26px rgba(124,92,255,0.12); font-weight:700; color:white; font-family:Poppins}
+    .menu-toggle{display:none; background:transparent; border:0; color:inherit}
+
+    /* -------- hero -------- */
+    .hero{display:grid; grid-template-columns: 1fr 480px; gap:36px; align-items:center; padding:56px 0}
+    .hero-left h1{font-size:42px; line-height:1.02; margin:0 0 12px; font-family:Poppins}
+    .hero-left p{color:var(--muted); margin:0 0 18px; max-width:60ch}
+    .btn-row{display:flex; gap:12px; flex-wrap:wrap}
+    .btn-primary{background:linear-gradient(90deg,var(--accent), #6b50ff); color:white; padding:12px 18px; border-radius:12px; font-weight:700; box-shadow: 0 12px 30px rgba(124,92,255,0.12); border:0}
+    .btn-ghost{background:transparent; border:1px solid var(--card-border); padding:10px 16px; border-radius:12px; color:var(--muted); font-weight:600}
+
+    /* hero card (glass + tiles) */
+    .hero-card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      border:1px solid var(--card-border);
+      padding:18px;
+      border-radius:20px;
+      backdrop-filter: blur(var(--glass-blur)) saturate(120%);
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      box-shadow: 0 12px 40px rgba(2,6,23,0.55);
+      display:grid; gap:12px;
+    }
+
+    .hero-visual{
+      height:220px; border-radius:12px; overflow:hidden;
+      background: linear-gradient(135deg,#0f1724 0%, #111827 100%);
+      display:flex; align-items:center; justify-content:center; color: #dbe9ff;
+      position:relative;
+    }
+
+    /* 3D tile */
+    .tile-grid{display:grid; grid-template-columns: repeat(2, 1fr); gap:10px}
+    .tile{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius:10px; padding:12px; text-align:center; border:1px solid rgba(255,255,255,0.02); transition: transform .35s cubic-bezier(.2,.9,.3,1), box-shadow .35s; transform-style:preserve-3d}
+    .tile:hover{transform: translateY(-8px) rotateX(3deg); box-shadow: 0 20px 40px rgba(2,6,23,0.6)}
+    .tile .icon{font-size:26px; margin-bottom:8px}
+    .tile h4{margin:0; font-size:15px}
+    .tile p{color:var(--muted); font-size:13px; margin:6px 0 0}
+
+    /* -------- services / features -------- */
+    .services{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:28px}
+    .service-card{padding:18px; border-radius:14px; background:var(--card); border:1px solid var(--card-border); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); transition: transform .28s}
+    .service-card:hover{transform: translateY(-6px)}
+    .service-card h3{margin:0 0 8px}
+
+    /* -------- infographics (KPI + sparklines) -------- */
+    .kpi-row{display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:36px}
+    .kpi{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:18px; border-radius:12px; border:1px solid var(--card-border); display:flex; flex-direction:column; gap:10px; align-items:flex-start}
+    .kpi .value{font-size:28px; font-weight:700; color:white}
+    .kpi .label{font-size:13px; color:var(--muted)}
+    .sparkline{width:100%; height:48px}
+
+    /* CTA banner */
+    .cta{margin-top:40px; padding:20px; border-radius:14px; display:flex; gap:20px; align-items:center; justify-content:space-between; background: linear-gradient(90deg, rgba(124,92,255,0.06), rgba(124,92,255,0.03)); border:1px solid rgba(124,92,255,0.06)}
+    .cta h3{margin:0}
+    .cta p{color:var(--muted); margin:0}
+
+    /* footer */
+    footer{margin-top:48px; color:var(--muted); text-align:center; padding:28px 0 60px}
+
+    /* small screens */
+    @media (max-width:1020px){
+      .hero{grid-template-columns:1fr 1fr}
+      .hero-visual{height:180px}
+      .services{grid-template-columns:repeat(2,1fr)}
+      .kpi-row{grid-template-columns:repeat(2,1fr)}
+    }
+    @media (max-width:720px){
+      .nav-wrap{margin:10px}
+      nav ul{display:none}
+      .menu-toggle{display:block}
+      .hero{grid-template-columns:1fr; gap:18px}
+      .hero-left{text-align:center}
+      .hero-left p{margin:0 auto}
+      .services{grid-template-columns:1fr}
+      .kpi-row{grid-template-columns:1fr}
+      .hero-card{padding:12px}
+    }
+
+    /* reveal animation utility */
+    .reveal{opacity:0; transform:translateY(12px); transition: all .6s cubic-bezier(.2,.9,.3,1)}
+    .reveal.in-view{opacity:1; transform:none}
+  </style>
+</head>
+
+<body>
+  <header class="container">
+    <div class="nav-wrap" role="navigation" aria-label="Main navigation">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">BE</div>
+        <div>
+          <div style="font-weight:700; font-family:Poppins">Be Eternal</div>
+          <div style="font-size:12px; color:var(--muted)">Growth that lasts</div>
+        </div>
       </div>
 
-      {/* FEATURE ROW */}
-      <motion.section
-        initial={{ opacity: 0, y: 12 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.15 }}
-        transition={{ duration: 0.6 }}
-        className="mt-12"
-      >
-        <h2 className="text-2xl font-semibold">What we do</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
-          {[
-            { title: 'Technical SEO', desc: 'Crawl faster, index better.' },
-            { title: 'Content Marketing', desc: 'Stories that rank & convert.' },
-            { title: 'Paid Ads', desc: 'High-ROI campaigns.' },
-            { title: 'Branding & Creatives', desc: 'Visual identity & assets.' }
-          ].map((f, idx) => (
-            <motion.div key={idx} whileHover={{ y: -8 }} className="glass p-6 rounded-xl tile-3d">
-              <div className="text-sm uppercase text-gray-400">{f.title}</div>
-              <div className="mt-3 text-gray-300 text-sm">{f.desc}</div>
-            </motion.div>
-          ))}
-        </div>
-      </motion.section>
+      <nav>
+        <ul>
+          <li><a href="#" aria-current="page">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Services ▾</a></li>
+          <li><a href="#">Content ▾</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </nav>
 
-      {/* CTA BANNER */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className="mt-12 glass rounded-xl p-6 flex flex-col md:flex-row items-center justify-between gap-4"
-      >
-        <div>
-          <h3 className="text-xl font-semibold">Ready to grow?</h3>
-          <p className="text-sm text-gray-300 mt-1">Schedule a quick call to see what Be Eternal can do for your brand.</p>
-        </div>
-        <div className="flex gap-3">
-          <Link to="/contact" className="btn-accent glass px-4 py-2 rounded-md font-semibold">Schedule a Call</Link>
-          <Link to="/seo" className="glass px-4 py-2 rounded-md">View SEO Services</Link>
-        </div>
-      </motion.div>
+      <div style="display:flex; gap:12px; align-items:center">
+        <button class="menu-toggle" aria-label="Open menu">☰</button>
+        <a href="#" class="nav-cta">Get a Quote</a>
+      </div>
+    </div>
+  </header>
 
+  <main class="container" role="main">
+    <!-- HERO -->
+    <section class="hero" style="margin-top:8px">
+      <div class="hero-left">
+        <h1 class="reveal">Modern SEO & Content that <span style="color:var(--accent)">drives growth</span></h1>
+        <p class="reveal" style="margin-top:10px">
+          We craft measurable SEO strategies, compelling content and creative assets that scale. This is
+          a sellable product-ready homepage mock with glassmorphism, 3D tiles, infographics and smooth micro-interactions.
+        </p>
+
+        <div class="btn-row reveal" style="margin-top:18px">
+          <button class="btn-primary" aria-label="Explore Services">Explore Services</button>
+          <button class="btn-ghost" aria-label="Contact us">Talk to Sales</button>
+        </div>
+
+        <!-- quick metrics -->
+        <div class="row" style="margin-top:22px">
+          <div class="col">
+            <div style="font-size:12px; color:var(--muted)">Projects</div>
+            <div style="font-weight:700; font-size:18px">120+</div>
+          </div>
+          <div class="col">
+            <div style="font-size:12px; color:var(--muted)">Avg. uplift</div>
+            <div style="font-weight:700; font-size:18px">+72%</div>
+          </div>
+          <div class="col">
+            <div style="font-size:12px; color:var(--muted)">Client retention</div>
+            <div style="font-weight:700; font-size:18px">94%</div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="hero-card reveal" aria-hidden="false">
+        <div class="hero-visual">
+          <!-- placeholder illustration (SVG) -->
+          <svg width="280" height="140" viewBox="0 0 560 280" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0" stop-color="#111827" stop-opacity="0.9"/>
+                <stop offset="1" stop-color="#0b1220" stop-opacity="0.85"/>
+              </linearGradient>
+            </defs>
+            <rect width="560" height="280" rx="12" fill="url(#g1)"/>
+            <g fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1.2">
+              <path d="M40 200 Q140 100 240 200 T440 200"/>
+              <path d="M60 160 Q160 60 260 160 T460 160" opacity="0.6"/>
+            </g>
+            <g transform="translate(40,30)">
+              <rect x="0" y="0" width="160" height="80" rx="8" fill="#121827" opacity="0.6"/>
+              <rect x="180" y="0" width="320" height="80" rx="8" fill="rgba(124,92,255,0.14)"/>
+            </g>
+          </svg>
+        </div>
+
+        <div style="display:flex; gap:12px; margin-top:8px; align-items:center; justify-content:space-between">
+          <div style="flex:1">
+            <div style="font-size:12px; color:var(--muted)">Quick Services</div>
+            <div style="font-weight:700">SEO · Content · Ads</div>
+          </div>
+
+          <!-- small tile grid -->
+          <div style="width:180px">
+            <div class="tile-grid">
+              <div class="tile">
+                <div class="icon">🔎</div>
+                <h4>SEO Audit</h4>
+                <p>Technical + on-page</p>
+              </div>
+              <div class="tile">
+                <div class="icon">✍️</div>
+                <h4>Content</h4>
+                <p>Blogs & long form</p>
+              </div>
+              <div class="tile">
+                <div class="icon">📈</div>
+                <h4>Growth</h4>
+                <p>Paid & organic</p>
+              </div>
+              <div class="tile">
+                <div class="icon">🎨</div>
+                <h4>Design</h4>
+                <p>Creatives & branding</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
     </section>
-  )
-}
+
+    <!-- SERVICES -->
+    <section class="reveal" style="margin-top:18px">
+      <div style="display:flex; justify-content:space-between; align-items:center">
+        <h2 style="margin:0">Our Core Services</h2>
+        <small style="color:var(--muted)">Tailored packages for startups & scaleups</small>
+      </div>
+
+      <div class="services" style="margin-top:16px">
+        <div class="service-card reveal">
+          <h3>Technical SEO</h3>
+          <p style="color:var(--muted); margin-top:8px">Improve crawlability, performance and indexability.</p>
+        </div>
+
+        <div class="service-card reveal">
+          <h3>Content Marketing</h3>
+          <p style="color:var(--muted); margin-top:8px">Long-form, eBooks, and data-led campaigns.</p>
+        </div>
+
+        <div class="service-card reveal">
+          <h3>Paid Media</h3>
+          <p style="color:var(--muted); margin-top:8px">Google & Meta campaigns focused on ROI.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- INFOGRAPHICS -->
+    <section class="reveal" style="margin-top:28px">
+      <h2 style="margin-bottom:12px">Real results (dummy data)</h2>
+
+      <div class="kpi-row">
+        <div class="kpi" id="kpi-traffic">
+          <div class="label">Organic Traffic</div>
+          <div class="value" data-target="72000">0</div>
+          <!-- sparkline (inline SVG) -->
+          <svg class="sparkline" viewBox="0 0 100 30" preserveAspectRatio="none" aria-hidden="true">
+            <polyline points="0,20 15,14 30,10 45,6 60,8 75,4 90,2 100,6" fill="none" stroke="white" stroke-opacity="0.9" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </div>
+
+        <div class="kpi" id="kpi-conv">
+          <div class="label">Conversion Rate</div>
+          <div class="value" data-target="4.8">0%</div>
+          <svg class="sparkline" viewBox="0 0 100 30" preserveAspectRatio="none" aria-hidden="true">
+            <polyline points="0,26 15,22 30,18 45,14 60,12 75,10 90,8 100,6" fill="none" stroke="white" stroke-opacity="0.9" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </div>
+
+        <div class="kpi" id="kpi-session">
+          <div class="label">Avg. Session</div>
+          <div class="value" data-target="204">0s</div>
+          <svg class="sparkline" viewBox="0 0 100 30" preserveAspectRatio="none" aria-hidden="true">
+            <polyline points="0,24 15,18 30,12 45,10 60,8 75,12 90,18 100,14" fill="none" stroke="white" stroke-opacity="0.9" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="reveal" style="margin-top:36px">
+      <div class="cta">
+        <div>
+          <h3>Ready to make your growth eternal?</h3>
+          <p>Schedule a discovery call — 15 minutes to identify quick wins.</p>
+        </div>
+        <div style="display:flex; gap:10px">
+          <button class="btn-primary">Schedule Call</button>
+          <button class="btn-ghost">See Pricing</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="container">
+    <div style="max-width:var(--max-width); margin:18px auto 0; display:flex; flex-direction:column; gap:10px; align-items:center">
+      <div style="font-weight:700">Be Eternal</div>
+      <div style="font-size:13px; color:var(--muted)">© <span id="year"></span> Be Eternal · All rights reserved</div>
+    </div>
+  </footer>
+
+  <script>
+    // -------------- helper: reveal on scroll --------------
+    (function(){
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if(entry.isIntersecting) entry.target.classList.add('in-view');
+        });
+      }, {threshold: 0.16});
+
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    })();
+
+    // -------------- animates KPI numbers when visible --------------
+    (function(){
+      function animateCount(el, target, isFloat){
+        let start = 0;
+        const duration = 1400;
+        const startTs = performance.now();
+        function tick(now){
+          const progress = Math.min((now - startTs)/duration, 1);
+          const value = start + (target - start) * easeOutCubic(progress);
+          if(isFloat){
+            el.textContent = (Math.round(value * 10)/10) + (el.dataset.suffix || '');
+          } else {
+            el.textContent = Math.round(value).toLocaleString();
+            if(el.dataset.suffix) el.textContent += el.dataset.suffix;
+          }
+          if(progress < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      }
+      function easeOutCubic(t){ return 1 - Math.pow(1 - t, 3); }
+
+      const kpis = document.querySelectorAll('.kpi .value');
+      const kpio = new IntersectionObserver((entries, ob) => {
+        entries.forEach(entry => {
+          if(entry.isIntersecting){
+            const el = entry.target;
+            const t = parseFloat(el.dataset.target);
+            if(el.parentElement.id === 'kpi-conv'){
+              el.dataset.suffix = '%';
+              animateCount(el, t, true);
+            } else if(el.parentElement.id === 'kpi-session'){
+              // seconds to human mm:ss later; animate seconds integer
+              animateCount(el, t, false);
+              el.dataset.suffix = 's';
+            } else {
+              animateCount(el, t, false);
+            }
+            ob.unobserve(el);
+          }
+        });
+      }, {threshold:0.6});
+
+      kpis.forEach(el => kpio.observe(el));
+    })();
+
+    // -------------- small mobile nav (toggle only) --------------
+    (function(){
+      const toggle = document.querySelector('.menu-toggle');
+      toggle && toggle.addEventListener('click', () => {
+        const navUl = document.querySelector('nav ul');
+        if(!navUl) return;
+        if(navUl.style.display === 'flex') navUl.style.display = 'none';
+        else navUl.style.display = 'flex';
+      });
+    })();
+
+    // -------------- footer year --------------
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
